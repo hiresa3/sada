@@ -1,7 +1,12 @@
-const title = isJointTransactionFlow()
-    ? duplicatePerkOverlay?.comboTitle
-    : duplicatePerkOverlay[perkDuplicateOverlay?.currentSpoId]?.title
-      ? duplicatePerkOverlay[perkDuplicateOverlay?.currentSpoId]?.title
-      : duplicatePerkOverlay?.title
-        ? duplicatePerkOverlay?.title
-        : '';
+let title;
+
+if (isJointTransactionFlow()) {
+  title = duplicatePerkOverlay?.comboTitle;
+} else {
+  const currentSpoIdTitle = duplicatePerkOverlay[perkDuplicateOverlay?.currentSpoId]?.title;
+  if (currentSpoIdTitle) {
+    title = currentSpoIdTitle;
+  } else {
+    title = duplicatePerkOverlay?.title ? duplicatePerkOverlay?.title : '';
+  }
+}
