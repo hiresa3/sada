@@ -1,12 +1,7 @@
-let title;
-
-if (isJointTransactionFlow()) {
-  title = duplicatePerkOverlay?.comboTitle;
-} else {
-  const currentSpoldTitle = duplicatePerkOverlay[perkDuplicateOverlay?.currentSpold]?.title;
-  if (currentSpoldTitle) {
-    title = currentSpoldTitle;
-  } else {
-    title = duplicatePerkOverlay?.title ?? '';
-  }
-}
+const title = isJointTransactionFlow()
+    ? duplicatePerkOverlay?.comboTitle
+    : duplicatePerkOverlay[perkDuplicateOverlay?.currentSpoId]?.title
+      ? duplicatePerkOverlay[perkDuplicateOverlay?.currentSpoId]?.title
+      : duplicatePerkOverlay?.title
+        ? duplicatePerkOverlay?.title
+        : '';
