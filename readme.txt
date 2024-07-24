@@ -1,6 +1,6 @@
 import * as actionTypes from '../@Redux/actionTypes';
 import { isJointTransactionFlow, isLoggedIn } from '../../../components/common/Helpers';
-
+ 
 export const handleDuplicatePerks = (state, toggleOn, perkInfo, viewedDuplicatePerks, dispatch, isPerkToggleClicked) => {
   let showDisclosurePerk = true;
   const shareablePerks = state?.progressivePlans?.progressivePlanAPiResponse?.data?.shareablePerks
@@ -12,19 +12,19 @@ export const handleDuplicatePerks = (state, toggleOn, perkInfo, viewedDuplicateP
   const shareableperksSpoids = shareablePerks?.map((i) => i.spoId);
   const hasNetflixSubscription = nextflixplaySubscriptions.find((i) => i.merchantAccountKey === 'NETFLIX');
   let shareableperkOpened = false;
-
+ 
   const handleOverlay = () => {
     showDisclosurePerk = false;
     const perkDuplicateOverlay = state?.progressivePlans?.perkDuplicateOverlay ? state?.progressivePlans?.perkDuplicateOverlay : {};
     const disclosureDisplayed = new Set(perkDuplicateOverlay?.disclosureDisplayed);
-    if (!disclosureDisplayed.has(perkInfo.spoId)) {
+    Eif (!disclosureDisplayed.has(perkInfo.spoId)) {
       disclosureDisplayed.add(perkInfo.spoId);
       if (isPerkToggleClicked) {
         if (!viewedDuplicatePerks.has(perkInfo.spoId)) {
           perkDuplicateOverlay.show = true;
           viewedDuplicatePerks.add(perkInfo.spoId);
         }
-      } else {
+      } else E{
         perkDuplicateOverlay.show = true;
         viewedDuplicatePerks.add(perkInfo.spoId);
       }
@@ -33,7 +33,7 @@ export const handleDuplicatePerks = (state, toggleOn, perkInfo, viewedDuplicateP
     }
     dispatch({ type: actionTypes.DUPLICATE_PERK_DISCLOSURE, response: perkDuplicateOverlay });
   };
-
+ 
   if (isJointTransactionFlow() || isLoggedIn()) {
     if (toggleOn) {
       shareableperksSpoids.forEach((val) => {
@@ -42,14 +42,14 @@ export const handleDuplicatePerks = (state, toggleOn, perkInfo, viewedDuplicateP
           handleOverlay();
         }
       });
-      if (hasNetflixSubscription && !shareableperkOpened && !isJointTransactionFlow()) {
+      Iif (hasNetflixSubscription && !shareableperkOpened && !isJointTransactionFlow()) {
         handleOverlay();
       }
     }
   }
   return showDisclosurePerk;
 };
-
+ 
 export const handleDisclosurePerks = (perkStaticContent, perkInfo, state, toggleOn, dispatch) => {
   const disclosurePerksSpoIds = [perkStaticContent?.disneyPerkSpoId];
   if (!isLoggedIn()) {
@@ -59,7 +59,7 @@ export const handleDisclosurePerks = (perkStaticContent, perkInfo, state, toggle
   if (disclosurePerksSpoIds?.includes(perkInfo?.spoId) && toggleOn) {
     const perkDisclosureOverlay = state?.progressivePlans?.perkDisclosureOverlay ? state?.progressivePlans?.perkDisclosureOverlay : {};
     const disclosureDisplayed = new Set(perkDisclosureOverlay?.disclosureDisplayed); // Taking out any duplicate from array available.
-    if (!disclosureDisplayed.has(perkInfo?.spoId) && perkInfo?.spoId) {
+    Iif (!disclosureDisplayed.has(perkInfo?.spoId) && perkInfo?.spoId) {
       disclosureDisplayed.add(perkInfo?.spoId);
       perkDisclosureOverlay.show = true;
       perkDisclosureOverlay.currentSpoId = perkInfo.spoId;
@@ -68,3 +68,4 @@ export const handleDisclosurePerks = (perkStaticContent, perkInfo, state, toggle
     dispatch({ type: actionTypes.UPDATE_PERK_DISCLOSURE, response: perkDisclosureOverlay });
   }
 };
+ 
