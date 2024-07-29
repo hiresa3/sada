@@ -1,13 +1,9 @@
-let message;
-
-if (isAALflow) {
-    message = convertStringToElements(duplicatePerkOverlayAAL[perkDuplicateOverlay?.currentSpold]?.message);
-} else {
-    const overlayMessage = duplicatePerkOverlay[perkDuplicateOverlay?.currentSpold]?.message;
-    if (overlayMessage) {
-        message = convertStringToElements(overlayMessage);
-    } else {
-        // Assign a default value or handle the case when the message is not available
-        message = /* default value or fallback */;
-    }
-}
+if(isLoggedIn() && duplicatePerks.length || hasNetflixSubscription ){
+          perks[2]((perk)=> {
+         if(isDuplicateSharablePerks(perk)){
+         duplicateDisclosureHandler(duplicatePerks);
+        }else (isSubscribedAsBundle(perk)){
+          duplicateDisclosureHandler(netflixPerks);
+         }
+         })
+         }
