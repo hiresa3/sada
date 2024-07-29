@@ -1,9 +1,9 @@
-if(isLoggedIn() && duplicatePerks.length || hasNetflixSubscription ){
-          perks[2]((perk)=> {
-         if(isDuplicateSharablePerks(perk)){
-         duplicateDisclosureHandler(duplicatePerks);
-        }else (isSubscribedAsBundle(perk)){
-          duplicateDisclosureHandler(netflixPerks);
-         }
-         })
-         }
+if (isLoggedIn() && (duplicatePerks.length > 0 || hasNetflixSubscription)) {
+    perks[2]((perk) => {
+        if (isDuplicateSharablePerks(perk)) {
+            duplicateDisclosureHandler(duplicatePerks);
+        } else if (isSubscribedAsBundle(perk)) { // Changed from `else` to `else if`
+            duplicateDisclosureHandler(netflixPerks);
+        }
+    });
+}
