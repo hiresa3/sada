@@ -1,71 +1,1122 @@
-import * as actionTypes from '../@Redux/actionTypes';
-import { isJointTransactionFlow, isLoggedIn } from '../../../components/common/Helpers';
- 
-export const handleDuplicatePerks = (state, toggleOn, perkInfo, viewedDuplicatePerks, dispatch, isPerkToggleClicked) => {
-  let showDisclosurePerk = true;
-  const shareablePerks = state?.progressivePlans?.progressivePlanAPiResponse?.data?.shareablePerks
-    ? state?.progressivePlans?.progressivePlanAPiResponse?.data?.shareablePerks
-    : [];
-  const nextflixplaySubscriptions = state?.progressivePlans?.netflixPlusPlay?.data?.subscriptions
-    ? state?.progressivePlans?.netflixPlusPlay?.data?.subscriptions
-    : [];
-  const shareableperksSpoids = shareablePerks?.map((i) => i.spoId);
-  const hasNetflixSubscription = nextflixplaySubscriptions.find((i) => i.merchantAccountKey === 'NETFLIX');
-  let shareableperkOpened = false;
- 
-  const handleOverlay = () => {
-    showDisclosurePerk = false;
-    const perkDuplicateOverlay = state?.progressivePlans?.perkDuplicateOverlay ? state?.progressivePlans?.perkDuplicateOverlay : {};
-    const disclosureDisplayed = new Set(perkDuplicateOverlay?.disclosureDisplayed);
-    Eif (!disclosureDisplayed.has(perkInfo.spoId)) {
-      disclosureDisplayed.add(perkInfo.spoId);
-      if (isPerkToggleClicked) {
-        if (!viewedDuplicatePerks.has(perkInfo.spoId)) {
-          perkDuplicateOverlay.show = true;
-          viewedDuplicatePerks.add(perkInfo.spoId);
-        }
-      } else E{
-        perkDuplicateOverlay.show = true;
-        viewedDuplicatePerks.add(perkInfo.spoId);
-      }
-      perkDuplicateOverlay.currentSpoId = perkInfo.spoId;
-      perkDuplicateOverlay.disclosureDisplayed = Array.from(disclosureDisplayed);
+{
+    "data": {
+        "resumeCase": false,
+        "loggedIn": false,
+        "willow": true,
+        "employee": false,
+        "availablePromotions": [],
+        "shareablePerks": [
+            {
+                "spoId": "3199",
+                "lineActivityType": "VZW",
+                "perkLevel": "account"
+            }
+            
+        ],
+        "statusCode": "00",
+        "statusMessage": "Service completed Successfully.",
+        "planProductReferenceDataList": [
+            {
+                "productId": "60028",
+                "productName": "Disney+",
+                "shortName": "Included",
+                "marketingDesc": "Get the best in movies, shows, and sports with Disney+, Hulu, and ESPN+ included. There’s something for everyone with epic stories, tons of TV, and live sports. One subscription can be shared with everyone on your account. A $14.99/mo value, included for as long as you stay on an eligible plan.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Disney Individual",
+                "groupName": "Disney+",
+                "groupDescription": "Get the best in movies, shows, and sports with Disney+, Hulu, and ESPN+ included. There’s something for everyone with epic stories, tons of TV, and live sports. One subscription can be shared with everyone on your account. A $14.99/mo value, included for as long as you stay on an eligible plan."
+            },
+            {
+                "productId": "60029",
+                "productName": "Hulu",
+                "shortName": "Included",
+                "marketingDesc": "Get the best in movies, shows, and sports with Disney+, Hulu, and ESPN+ included. There&#39;s something for everyone with epic stories, tons of TV, and live sports. One subscription can be shared with everyone on your account. A $13.99/mo value, included on us for as long as you stay on an eligible plan.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Hulu Individual",
+                "groupName": "Hulu",
+                "groupDescription": "Get the best in movies, shows, and sports with Disney+, Hulu, and ESPN+ included. There&#39;s something for everyone with epic stories, tons of TV, and live sports. One subscription can be shared with everyone on your account. A $13.99/mo value, included on us for as long as you stay on an eligible plan."
+            },
+            {
+                "productId": "60030",
+                "productName": "ESPN+",
+                "shortName": "Included",
+                "marketingDesc": "Get the best in movies, shows, and sports with Disney+, Hulu, and ESPN+ included. There&#39;s something for everyone with epic stories, tons of TV, and live sports. One subscription can be shared with everyone on your account. A $13.99/mo value, included on us for as long as you stay on an eligible plan.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "ESPN Individual",
+                "groupName": "ESPN+",
+                "groupDescription": "Get the best in movies, shows, and sports with Disney+, Hulu, and ESPN+ included. There&#39;s something for everyone with epic stories, tons of TV, and live sports. One subscription can be shared with everyone on your account. A $13.99/mo value, included on us for as long as you stay on an eligible plan."
+            },
+            {
+                "productId": "60031",
+                "productName": "Disney+ 6 months on us",
+                "description": "Disney+ 6 months on us",
+                "shortName": "6 months on us",
+                "marketingDesc": "All the best stories from Disney, Pixar, Marvel, Star Wars, and National Geographic. First 6 months on us, then $13.99/mo + taxes after. One subscription can be shared with everyone on your account. Cancel anytime.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Disney Individual",
+                "groupName": "Disney+",
+                "groupDescription": "All the best stories from Disney, Pixar, Marvel, Star Wars, and National Geographic. First 6 months on us, then $13.99/mo + taxes after. One subscription can be shared with everyone on your account. Cancel anytime. (For NM residents, Disney+ ends automatically after 6 mos. Add&#39;l terms apply. One offer per eligible Verizon account.)"
+            },
+            {
+                "productId": "70065",
+                "productName": "Up to 300 Mbps download",
+                "description": "Up to 300 Mbps download",
+                "marketingDesc": "Typical download speeds of 85 - 250 Mbps",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Speed",
+                "groupName": "Speed",
+                "groupDescription": "Upload speeds of 10-20 Mbps. 5G/4G LTE backup with download speeds up to 70 Mbps. Depending on location, some customers may receive LTE Home with download speeds of 25-50 Mbps and upload speeds of 4-5 Mbps.",
+                "icon": "download",
+                "compareProductWeightedValue": "300"
+            },
+            {
+                "productId": "70066",
+                "productName": "Ultra HD 4K",
+                "description": "Ultra HD 4K video streaming",
+                "marketingDesc": "Stream movies, shows and sports in brilliant Ultra HD 4K resolution.<br> <br> 4K compatible devices required. Content availability may vary. 4K content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Video",
+                "groupName": "Video",
+                "groupDescription": "Stream movies, shows and sports in brilliant Ultra HD 4K resolution.<br> <br> 4K compatible devices required. Content availability may vary. 4K content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.",
+                "icon": "4k",
+                "compareProductWeightedValue": "2"
+            },
+            {
+                "productId": "70067",
+                "productName": "Included",
+                "description": "Wireless router included",
+                "marketingDesc": "The included state-of-the-art router features dual band support to provide fast speeds, coverage, and low latency so you get optimal performance from your device.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Router",
+                "groupName": "Router",
+                "groupDescription": "Our state-of-the-art Wi-Fi 6 router and 5G receiver is included in your plan.",
+                "icon": "home-internet",
+                "compareProductWeightedValue": "1"
+            },
+            {
+                "productId": "70068",
+                "productName": "3 years",
+                "description": "3-Year Price Guarantee",
+                "marketingDesc": "So you don’t need to worry about unexpected  price hikes.<br> <br> For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Price Guarantee",
+                "groupName": "Price Guarantee",
+                "groupDescription": "So you don’t need to worry about unexpected  price hikes.<br> <br> For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.",
+                "icon": "lock-closed",
+                "compareProductWeightedValue": "3"
+            },
+            {
+                "productId": "70070",
+                "productName": "Up to 100 Mbps download",
+                "description": "Up to 100 Mbps download",
+                "marketingDesc": "Typical download speeds of 50 - 85 Mbps",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Speed",
+                "groupName": "Speed",
+                "groupDescription": "Upload speeds of 5-10 Mbps. 5G/4G LTE backup with download speeds up to 70 Mbps. Depending on location, some customers may receive LTE Home with download speeds of 25-50 Mbps and upload speeds of 4-5 Mbps.",
+                "icon": "download",
+                "compareProductWeightedValue": "100"
+            },
+            {
+                "productId": "70071",
+                "productName": "1080p HD",
+                "description": "1080p HD video streaming",
+                "marketingDesc": "Enjoy your entertainment in HD quality picture, color and sharpness.<br> <br> HD compatible devices required. Content availability may vary. HD content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Video",
+                "groupName": "Video",
+                "groupDescription": "Enjoy your entertainment in HD quality picture, color and sharpness.<br> <br> HD compatible devices required. Content availability may vary. HD content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.",
+                "icon": "hd",
+                "compareProductWeightedValue": "1"
+            },
+            {
+                "productId": "70072",
+                "productName": "2 years",
+                "description": "2-Years Price Guarantee",
+                "marketingDesc": "So you don’t need to worry about unexpected  price hikes.<br> <br> For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Price Guarantee",
+                "groupName": "Price Guarantee",
+                "groupDescription": "So you don’t need to worry about unexpected  price hikes.<br> <br> For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.",
+                "icon": "lock-closed",
+                "compareProductWeightedValue": "2"
+            },
+            {
+                "productId": "70085",
+                "productName": "*5 years",
+                "description": "5-years Price Guarantee",
+                "shortName": "5 years",
+                "marketingDesc": "So you don’t need to worry about unexpected  price hikes.<br><br> For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Price Guarantee",
+                "groupName": "Price Guarantee",
+                "groupDescription": "So you don’t need to worry about unexpected  price hikes.<br><br> For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.",
+                "icon": "lock-closed"
+            },
+            {
+                "productId": "70086",
+                "productName": "Verizon Internet Gateway",
+                "description": "Verizon Internet Gateway",
+                "shortName": "Verizon Internet Gateway",
+                "marketingDesc": "The included state-of-the-art router features dual band support to provide fast speeds, coverage, and low latency so you get optimal performance from your device.",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Router",
+                "groupName": "Router Body",
+                "groupDescription": "The included state-of-the-art router features dual band support to provide fast speeds, coverage, and low latency so you get optimal performance from your device."
+            },
+            {
+                "productId": "70087",
+                "productName": "Whole-Home Wi-Fi",
+                "description": "Whole-Home Wi-Fi",
+                "marketingDesc": "Enoy an enhanced Wi-Fi experience with 1 Verizon Wi-Fi Extender included with your plan providing reliable covergage where you need it most.<br> <br> During professional setup. the technician will test to determine if a Wi-Fi Extender is recommneded and set one up if needed. If you're setting up service yourself, you may request a Wi-Fi Extender after setup. Or, 3 days after your service is setup, out Wi-Fi Health Check tool will automatically monitor the strength of the Wi-Fi connection between the router and connected devices and indicate if an extender is recommended. If our analysis discover signal issues, we will notify you via email to confirm shipment of a Verizon Wi-Fi Extender.<br><br>",
+                "cost": "0.00",
+                "lineLevel": true,
+                "groupId": "Router",
+                "groupName": "Video",
+                "groupDescription": "Enjoy your entertainment in HD quality picture, color and sharpness.<br> <br> HD compatible devices required. Content availability may vary. HD content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.<br><br>If you wish to test your own Wi-Fi network performance, you can do so at any time after setup via the My Verizon app or contracting Verizon customer support.<br><br>Verizon owns the equipment provided with your plan, including the router and Wi-Fi Extender. If you choose to disconnect service, you must return equipment within 3 days, or you'll incur an unreturned equipment fee per unit of equipment not returned.",
+                "superScript": "Upload speeds of 10-20 Mbps. 5G/4G LTE backup with download speeds up to 70 Mbps. Depending on location, some customers may receive LTE Home with download speeds of 25-50 Mbps and upload speeds of 4-5 Mbps."
+            }
+        ],
+        "planProductGroupReferenceDataList": [
+            {
+                "groupId": "50044",
+                "groupName": "Willow",
+                "headerText": "Speed",
+                "productIds": [
+                    "70065"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50045",
+                "groupName": "Willow",
+                "headerText": "Video",
+                "productIds": [
+                    "70066"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50046",
+                "groupName": "Willow",
+                "headerText": "Router",
+                "productIds": [
+                    "70067"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50047",
+                "groupName": "Willow",
+                "headerText": "Price Guarantee",
+                "productIds": [
+                    "70068"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50050",
+                "groupName": "Willow",
+                "headerText": "Speed",
+                "productIds": [
+                    "70070"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50051",
+                "groupName": "Willow",
+                "headerText": "Video",
+                "productIds": [
+                    "70071"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50052",
+                "groupName": "Willow",
+                "headerText": "Price Guarantee",
+                "productIds": [
+                    "70072"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50062",
+                "groupName": "Willow",
+                "headerText": "Price Guarantee",
+                "productIds": [
+                    "70085"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50063",
+                "groupName": "C-Band 5G Home",
+                "headerText": "Verizon Internet Gateway",
+                "productIds": [
+                    "70086"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            },
+            {
+                "groupId": "50064",
+                "groupName": "C-Band 5G Home",
+                "headerText": "Whole Home Wi-Fi",
+                "productIds": [
+                    "70087"
+                ],
+                "commonGroup": false,
+                "productGroup5G": false,
+                "planGroupPerkValue": "0"
+            }
+        ],
+        "acpInfo": {},
+        "perkReferenceDataList": {
+            "3192": {
+                "spoId": "3192",
+                "perkTitle": "YouTube Premium",
+                "perkInclusion": "Get all of YouTube, YouTube Music and YouTube Kids ad-free.",
+                "perkOriginalPrice": "13.99",
+                "perkDuplicateWarningInd": false,
+                "eligiblePlanIds": [
+                    "67571",
+                    "67576",
+                    "67567",
+                    "67568",
+                    "67577",
+                    "67584",
+                    "50127",
+                    "50129",
+                    "50044",
+                    "50116",
+                    "50010",
+                    "65655",
+                    "50128",
+                    "50130",
+                    "50055",
+                    "50117",
+                    "50011",
+                    "65656",
+                    "39425",
+                    "39428",
+                    "25878",
+                    "32525",
+                    "32523",
+                    "17542",
+                    "38365",
+                    "75560",
+                    "75561",
+                    "75565",
+                    "63214",
+                    "63215",
+                    "63216",
+                    "63217",
+                    "69183",
+                    "69185"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/VerizonWireless/perk-tile-youtube-premium-logo",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-youtube-premium",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "NOTRANSFER",
+                    "BYOYOUTUBE",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Dark",
+                "perkDescription": "Get all of YouTube, YouTube Music and YouTube Kids ad-free."
+            },
+            "2641": {
+                "spoId": "2641",
+                "perkTitle": "Disney Bundle",
+                "perkInclusion": "Disney+ (No Ads), Hulu (With Ads), and ESPN+ (With Ads)",
+                "perkOriginalPrice": "18.99",
+                "perkDuplicateWarningInd": true,
+                "eligiblePlanIds": [
+                    "63217",
+                    "63216",
+                    "63215",
+                    "63214",
+                    "58701",
+                    "58699",
+                    "69183",
+                    "69185",
+                    "67571",
+                    "67567",
+                    "67577",
+                    "50127",
+                    "50129",
+                    "50044",
+                    "50116",
+                    "50010",
+                    "65655",
+                    "50128",
+                    "50130",
+                    "50055",
+                    "50117",
+                    "50011",
+                    "65656",
+                    "39425",
+                    "39428",
+                    "25878",
+                    "32525",
+                    "32523",
+                    "17542",
+                    "38365",
+                    "75560",
+                    "75561",
+                    "75565"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/VerizonWireless/perk-tile-disney-bundle-logo",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-disney-bundle",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "VZVIDEO",
+                    "NOTRANSFER",
+                    "BYODISNEY",
+                    "SUBELIG",
+                    "BYODSNYMTX",
+                    "DONOTREACT",
+                    "AS",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Light",
+                "mutualExclusions": [],
+                "perkDescription": "Includes Disney+ (No Ads), Hulu (With Ads), and ESPN+ (With Ads), wherever you are.",
+                "perkBackgroundColor": "linear-gradient(180deg, #010931 0%, #011672 100%);"
+            },
+            "2640": {
+                "spoId": "2640",
+                "perkTitle": "Walmart+ Membership",
+                "perkInclusion": "Walmart+ is the membership that can help you save even more time and money when you shop at Walmart.",
+                "perkOriginalPrice": "12.95",
+                "perkDuplicateWarningInd": true,
+                "eligiblePlanIds": [
+                    "63217",
+                    "63216",
+                    "63215",
+                    "63214",
+                    "58701",
+                    "58699",
+                    "69183",
+                    "69185",
+                    "67571",
+                    "67567",
+                    "67577",
+                    "50127",
+                    "50129",
+                    "50044",
+                    "50116",
+                    "50010",
+                    "65655",
+                    "50128",
+                    "50130",
+                    "50055",
+                    "50117",
+                    "50011",
+                    "65656",
+                    "39425",
+                    "39428",
+                    "25878",
+                    "32525",
+                    "32523",
+                    "17542",
+                    "38365",
+                    "75560",
+                    "75561",
+                    "75565"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/VerizonWireless/perk-tile-walmart-plus-membership-logo",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-walmart-plus-membership",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "NOTRANSFER",
+                    "BYOWALMART",
+                    "DONOTREACT",
+                    "AS",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Dark",
+                "perkDescription": "Walmart+ member benefits include free delivery from your Walmart store, free shipping with no order minimum from Walmart.com, member prices on fuel at select stations, and so much more. (See Walmart+ Terms & Conditions)",
+                "perkBackgroundColor": "#FFC220;"
+            },
+            "3199": {
+                "spoId": "3199",
+                "perkTitle": "Unlimited Cloud Storage",
+                "perkInclusion": "Securely store and access your photos, videos and more.",
+                "perkOriginalPrice": "13.99",
+                "perkDuplicateWarningInd": false,
+                "eligiblePlanIds": [
+                    "63217",
+                    "63216",
+                    "63215",
+                    "63214",
+                    "58701",
+                    "58699",
+                    "69183",
+                    "69185"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/VerizonWireless/perk-tile-two-tb-cloud-storage-logo",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-two-tb-cloud-storage",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "NOTRANSFER",
+                    "VT",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Light",
+                "perkDescription": "Securely store and access your photos, videos and more on all your compatible devices. Includes unlimited storage for one user.",
+                "perkBackgroundColor": "#EE0000;"
+            },
+            "3198": {
+                "spoId": "3198",
+                "perkTitle": "Unlimited Group Cloud Storage",
+                "perkInclusion": "Securely store and access your photos, videos and more on all your compatible devices.",
+                "perkOriginalPrice": "19.99",
+                "perkDuplicateWarningInd": true,
+                "eligiblePlanIds": [
+                    "67571",
+                    "67576",
+                    "67567",
+                    "67568",
+                    "67577",
+                    "67584",
+                    "50127",
+                    "50129",
+                    "50044",
+                    "50116",
+                    "50010",
+                    "65655",
+                    "50128",
+                    "50130",
+                    "50055",
+                    "50117",
+                    "50011",
+                    "65656",
+                    "39425",
+                    "39428",
+                    "25878",
+                    "32525",
+                    "32523",
+                    "17542",
+                    "38365",
+                    "75560",
+                    "75561",
+                    "75565"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/VerizonWireless/perk-tile-two-tb-cloud-storage-logo",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-two-tb-cloud-storage",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "NOTRANSFER",
+                    "VT",
+                    "BYOCLDUNLG",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Light",
+                "perkDescription": "Securely store and access your photos, videos and more on all your compatible devices."
+            },
+            "2839": {
+                "spoId": "2839",
+                "perkTitle": "Netflix & Max (With Ads)",
+                "perkInclusion": "Stream award-winning TV shows, movies, family favorites and more on both services.",
+                "perkOriginalPrice": "16.98",
+                "perkDuplicateWarningInd": true,
+                "eligiblePlanIds": [
+                    "63217",
+                    "63216",
+                    "63215",
+                    "63214",
+                    "58701",
+                    "58699",
+                    "69183",
+                    "69185",
+                    "67571",
+                    "67567",
+                    "67577",
+                    "50127",
+                    "50129",
+                    "50044",
+                    "50116",
+                    "50010",
+                    "65655",
+                    "50128",
+                    "50130",
+                    "50055",
+                    "50117",
+                    "50011",
+                    "65656",
+                    "39425",
+                    "39428",
+                    "25878",
+                    "32525",
+                    "32523",
+                    "17542",
+                    "38365",
+                    "75560",
+                    "75561",
+                    "75565"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/verizon/20x20SVG_Transparent",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-net-max",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "NOTRANSFER",
+                    "BYONETMAX",
+                    "DONOTREACT",
+                    "AS",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Light",
+                "perkDescription": "Stream award-winning TV shows, movies, family favorites and more on both services.",
+                "perkBackgroundColor": "linear-gradient(#040108, #490CA5)"
+            },
+            "2639": {
+                "spoId": "2639",
+                "perkTitle": "+play Monthly Credit",
+                "perkInclusion": "Get $15 to spend each month on your favorite +play subscriptions for just $10.",
+                "perkOriginalPrice": "15.0",
+                "perkDuplicateWarningInd": false,
+                "eligiblePlanIds": [
+                    "63217",
+                    "63216",
+                    "63215",
+                    "63214",
+                    "58701",
+                    "58699",
+                    "69183",
+                    "69185",
+                    "67571",
+                    "67567",
+                    "67577",
+                    "50127",
+                    "50129",
+                    "50044",
+                    "50116",
+                    "50010",
+                    "65655",
+                    "50128",
+                    "50130",
+                    "50055",
+                    "50117",
+                    "50011",
+                    "65656",
+                    "39425",
+                    "39428",
+                    "25878",
+                    "32525",
+                    "32523",
+                    "17542",
+                    "38365",
+                    "75560",
+                    "75561",
+                    "75565"
+                ],
+                "perkLogo": "https://ss7.vzw.com/is/content/VerizonWireless/perk-tile-plus-play-monthly-credit-logo",
+                "perkToggle": false,
+                "perkBackgroundImage": "perk-tile-plus-play-monthly-credit",
+                "categoryCodes": [
+                    "NOREASSIGN",
+                    "PLSPLYTRIG",
+                    "NOTRANSFER",
+                    "BYOPLSPLAY",
+                    "DONOTREACT",
+                    "AS",
+                    "BYOPERK"
+                ],
+                "perkTextAppearance": "Light",
+                "perkDescription": "Get $15 to spend each month on your favorite +play subscriptions for just $10.",
+                "perkBackgroundColor": "#000000;"
+            }
+        },
+        "lineLevelPlans": {
+            "lines": [
+                {
+                    "mtn": "newLine1",
+                    "actionRequired": false,
+                    "deviceInfo": {
+                        "modelName": "Verizon Internet Gateway",
+                        "deviceUrl": "vzw-internet-gateway-askey-titan-2-router-white-arc-xci55ax",
+                        "deviceType": {
+                            "device4G": false,
+                            "device5GE": false,
+                            "device5GA": true
+                        },
+                        "deviceCategory": {
+                            "smartPhone": false,
+                            "basicPhone": false,
+                            "connectedDevice": false,
+                            "internetDevice": false,
+                            "laptop": false,
+                            "tablet": false,
+                            "connectedCar": false,
+                            "hum": false,
+                            "watch": false
+                        },
+                        "deviceSku": "ASK-NCQ1338FA"
+                    },
+                    "mtnAttributes": {
+                        "accountOwner": false,
+                        "accountManager": false,
+                        "currentSmartFamilyPrimaryParent": false,
+                        "ultraWideBand5GPlan": false,
+                        "selectedSmartFamilyPrimaryParent": false,
+                        "bogoPromoLine": false,
+                        "includesMHOrEmployeeDiscount": false,
+                        "disneyPlus": false,
+                        "appleMusicEligible": false
+                    },
+                    "currentPlanHasPromo": false,
+                    "products": [
+                        {
+                            "displaySequence": 0,
+                            "plans": [
+                                {
+                                    "planId": "67571",
+                                    "displayName": "5G Home",
+                                    "planFeatures": [],
+                                    "eligibleMtns": [],
+                                    "additionalPlanProducts": [],
+                                    "additionalPlanProductGroups": [],
+                                    "price": {
+                                        "regularPrice": 50.0,
+                                        "discountedPrice": 0.0,
+                                        "discountedPriceDTP": 0.0,
+                                        "totalAmountOff": 0.0,
+                                        "discountPromoTotal": 0.0,
+                                        "regPriceWOAutoPay": 60.0
+                                    },
+                                    "promoBadgeMessages": [],
+                                    "anchorRequired": false,
+                                    "planDisplaySequence": 0,
+                                    "hasEligibleAutoPayDiscount": true,
+                                    "planSelectorView": false,
+                                    "welcomeUnlimitedPlan": false,
+                                    "planCategoryCode": "74",
+                                    "retired": false,
+                                    "secondNumPlan": false,
+                                    "showcase": false,
+                                    "isTrialPlan": false,
+                                    "isFiosPromoEligible": false,
+                                    "isDisabled": false,
+                                    "isRecommendedPlan": false,
+                                    "isSelectedPlan": false
+                                },
+                                {
+                                    "planId": "75561",
+                                    "displayName": "5G Home Plus",
+                                    "planFeatures": [],
+                                    "eligibleMtns": [],
+                                    "additionalPlanProducts": [],
+                                    "additionalPlanProductGroups": [],
+                                    "price": {
+                                        "regularPrice": 70.0,
+                                        "discountedPrice": 0.0,
+                                        "discountedPriceDTP": 0.0,
+                                        "totalAmountOff": 0.0,
+                                        "discountPromoTotal": 0.0,
+                                        "regPriceWOAutoPay": 80.0
+                                    },
+                                    "promoBadgeMessages": [],
+                                    "anchorRequired": false,
+                                    "planDisplaySequence": 0,
+                                    "hasEligibleAutoPayDiscount": true,
+                                    "planSelectorView": false,
+                                    "welcomeUnlimitedPlan": false,
+                                    "planCategoryCode": "74",
+                                    "retired": false,
+                                    "secondNumPlan": false,
+                                    "showcase": false,
+                                    "isTrialPlan": false,
+                                    "isFiosPromoEligible": false,
+                                    "isDisabled": false,
+                                    "isRecommendedPlan": false,
+                                    "isSelectedPlan": false
+                                }
+                            ],
+                            "planSelectorProduct": false,
+                            "isShowcase": false
+                        }
+                    ],
+                    "lineDisplaySeqNum": 0,
+                    "keepMyPlan": false,
+                    "keepMyPlanPromoAmount": 0.0,
+                    "promoEligiblePlanKey": false,
+                    "lineLevelPlanChangeRestricted": false,
+                    "featureMessages": [],
+                    "mostPopularPlans": [
+                        {
+                            "propositionName": "Midnight - 5G CBand Home Plus Plan",
+                            "rank": "4",
+                            "pricePlanId": "75561",
+                            "perksInfoList": [
+                                {
+                                    "spoId": "2641",
+                                    "rank": "1",
+                                    "displayRank": "1",
+                                    "propositionId": "SP_6770",
+                                    "soiEngagementId": "501075994",
+                                    "price": {
+                                        "regularPrice": 10.0,
+                                        "discountedPrice": 10.0,
+                                        "discountedPriceDTP": 0.0,
+                                        "totalAmountOff": 8.99,
+                                        "promos": [],
+                                        "discountPromoTotal": 0.0
+                                    },
+                                    "current": false,
+                                    "addedToCart": false,
+                                    "skipForDisplay": false,
+                                    "locationRefId": "80000166",
+                                    "within24HoursOfExpiry": false
+                                }
+                            ],
+                            "price": {
+                                "regularPrice": 98.99,
+                                "discountedPrice": 90.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 0.0,
+                                "promos": [],
+                                "discountPromoTotal": 0.0,
+                                "totalSavings": "8.99",
+                                "totalPerksSavings": "8.99"
+                            },
+                            "propositionMessage": "5G Home Plus",
+                            "propositionId": "SPL_10182",
+                            "soiEngagementId": "501104824",
+                            "locationRefId": "80000166",
+                            "bundleId": "1"
+                        }
+                    ],
+                    "availablePerks": [
+                        {
+                            "spoId": "2839",
+                            "rank": "8",
+                            "displayRank": "1",
+                            "propositionId": "SP_8422",
+                            "soiEngagementId": "501092122",
+                            "price": {
+                                "regularPrice": 10.0,
+                                "discountedPrice": 10.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 6.98,
+                                "promos": [],
+                                "discountPromoTotal": 0.0
+                            },
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        },
+                        {
+                            "spoId": "2641",
+                            "rank": "9",
+                            "displayRank": "2",
+                            "propositionId": "SP_6770",
+                            "soiEngagementId": "501075994",
+                            "price": {
+                                "regularPrice": 10.0,
+                                "discountedPrice": 10.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 8.99,
+                                "promos": [],
+                                "discountPromoTotal": 0.0
+                            },
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        },
+                        {
+                            "spoId": "2640",
+                            "rank": "10",
+                            "displayRank": "3",
+                            "propositionId": "SP_6768",
+                            "soiEngagementId": "501075980",
+                            "price": {
+                                "regularPrice": 10.0,
+                                "discountedPrice": 10.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 2.95,
+                                "promos": [],
+                                "discountPromoTotal": 0.0
+                            },
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        },
+                        {
+                            "spoId": "3192",
+                            "rank": "11",
+                            "displayRank": "4",
+                            "propositionId": "SP_9950",
+                            "soiEngagementId": "501104750",
+                            "price": {
+                                "regularPrice": 10.0,
+                                "discountedPrice": 10.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 3.99,
+                                "promos": [],
+                                "discountPromoTotal": 0.0
+                            },
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        },
+                        {
+                            "spoId": "2639",
+                            "rank": "12",
+                            "displayRank": "5",
+                            "propositionId": "SP_6764",
+                            "soiEngagementId": "501075952",
+                            "price": {
+                                "regularPrice": 10.0,
+                                "discountedPrice": 10.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 5.0,
+                                "promos": [],
+                                "discountPromoTotal": 0.0
+                            },
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        },
+                        {
+                            "spoId": "3199",
+                            "rank": "13",
+                            "displayRank": "6",
+                            "propositionId": "SP_9948",
+                            "soiEngagementId": "501104070",
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        },
+                        {
+                            "spoId": "3198",
+                            "rank": "14",
+                            "displayRank": "7",
+                            "propositionId": "SP_10006",
+                            "soiEngagementId": "501104766",
+                            "price": {
+                                "regularPrice": 15.0,
+                                "discountedPrice": 15.0,
+                                "discountedPriceDTP": 0.0,
+                                "totalAmountOff": 4.99,
+                                "promos": [],
+                                "discountPromoTotal": 0.0
+                            },
+                            "current": false,
+                            "addedToCart": false,
+                            "actionIndicator": "A",
+                            "skipForDisplay": false,
+                            "locationRefId": "80000167",
+                            "within24HoursOfExpiry": false
+                        }
+                    ],
+                    "perksInCart": [],
+                    "perksInAccount": [],
+                    "selectedPerks": [],
+                    "bestPromoValue": 0.0,
+                    "leastPromoValue": 0.0,
+                    "promoValueSame": false,
+                    "priceGuaranteedPlan": false,
+                    "fwaCbandQualified": false,
+                    "fwaLTEQualified": false,
+                    "skipPerkSavingsInfo": [],
+                    "secondNumLine": false,
+                    "showLineinRecommendation": false,
+                    "currentPlanEligibleToAdd": false,
+                    "primaryNumber": false,
+                    "secondaryNumber": false,
+                    "homeInternetPlan": false,
+                    "mixAndMatchPlan": false,
+                    "planChangeAllowed": false,
+                    "promoEligibleLine": false
+                }
+            ]
+        },
+        "planReferenceDataList": [
+            {
+                "planId": 75561,
+                "groupId": "plan12490037",
+                "description": "5G HOME PLUS",
+                "displayName": "5G Home Plus",
+                "overview": "Home internet you can count on, with our best extras yet.",
+                "displaySeqNum": 0,
+                "featureText": "<ul style=\"list-style: none\">\n<li><strong>Up to 300 Mbps download</strong></li>\n<li>Typical download speeds of 85 - 250 Mbps</li>\n<li>Upload speeds of 10-20 Mbps. 5G/4G LTE backup with download speeds up to 70 Mbps. Depending on location, some customers may receive LTE Home with download speeds of 25-50 Mbps and upload speeds of 4-5 Mbps.</li></ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>Ultra HD 4K video streaming</strong></li>\n<li>Stream movies, shows and sports in brilliant Ultra HD 4K resolution.</li><li>4K compatible devices required. Content availability may vary. 4K content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.</li></ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>Verizon Internet Gateway</strong></li>\n<li>The included state-of-the-art router features dual band support to provide fast speeds, coverage, and low latency so you get optimal performance from your device.</li></ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>Whole-Home Wi-Fi </strong></li>\n  <li>Enjoy an enhanced Wi-Fi experience with 1 Verizon Wi-Fi Extender included with your plan, providing reliable coverage where you need it most.</li><br><li>During professional setup, the technician will test to determine if a Wi-Fi Extender is recommended and set one up if needed. If you’re setting up service yourself, you may request a Wi-Fi Extender after setup. Or, 30 days after your service is setup, our Wi-Fi Health Check tool will automatically monitor the strength of the Wi-Fi connection between the router and connected devices, and indicate if an extender is recommended. If our analysis discovers signal issues, we will notify you via email to confirm shipment of a Verizon Wi-Fi Extender. </li><br><li>If you wish to test your own Wi-Fi network performance, you can do so at any time after setup via the My Verizon app or contacting Verizon customer support.</li><br><li>Verizon owns the equipment provided with your plan, including the router and Wi-Fi Extender. If you choose to disconnect service, you must return equipment within 30 days, or you'll incur an unreturned equipment fee per unit of equipment not returned.</li></ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>3-Year Price Guarantee</strong></li>\n<li>So you don’t need to worry about unexpected price hikes.</li>\n<li>For new Verizon Home Internet (“VHI”) households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions.</li></ul>",
+                "allowance": {
+                    "dataAllowance": "unlimited"
+                },
+                "accessCharge": {
+                    "frequencyCode": "M",
+                    "monthlyAccessCharge": "80.00",
+                    "finalMonthlyAccessCharge": "80.00",
+                    "eligibleAutoPayDiscount": "10.00"
+                },
+                "promos": [],
+                "planAttributes": {
+                    "sharePlan": false,
+                    "variableLineCostPlan": false,
+                    "variablePlanCostPlan": false,
+                    "connectedDevicePlan": false,
+                    "ultraWideBand5GPlan": false,
+                    "safetyModeEligible": false,
+                    "showcase": true,
+                    "restricted": false,
+                    "backupPlan": false,
+                    "promoGifterPlan": false,
+                    "promoGifteePlan": false,
+                    "eligibleForParentLine": false,
+                    "requiresParentLine": false,
+                    "disneyPlusEligible": true,
+                    "appleMusicEligible": false,
+                    "connectedCar": false,
+                    "anchorRequired": false,
+                    "anchorable": false,
+                    "planPerkValue": "0",
+                    "mixAndMatch": false,
+                    "welcomeUnlimited": false,
+                    "planCategoryCode": "74",
+                    "mixAndMatch2": false,
+                    "mixAndMatch3": false,
+                    "mixAndMatch4": false
+                },
+                "planProducts": [
+                    "70065",
+                    "70066",
+                    "70086",
+                    "70087",
+                    "70068"
+                ],
+                "planProductGroups": [
+                    "50044",
+                    "50045",
+                    "50063",
+                    "50064",
+                    "50047"
+                ],
+                "productName": "5G FCL LINE LEVEL CBAND",
+                "promoGiftee": {},
+                "planRestricted": false,
+                "popularPlanProducts": []
+            },
+            {
+                "planId": 67571,
+                "groupId": "plan12490037",
+                "description": "5G HOME",
+                "displayName": "5G Home",
+                "overview": "Home internet you can count on, with our best extras yet.",
+                "displaySeqNum": 0,
+                "featureText": "<ul style=\"list-style: none\">\n<li><strong>Up to 100 Mbps download</strong></li>\n<li>Typical download speeds of 50 - 85 Mbps</li>\n<li>Upload speeds of 5-10 Mbps. 5G/4G LTE backup with download speeds up to 70 Mbps. Depending on location, some customers may receive LTE Home with download speeds of 25-50 Mbps and upload speeds of 4-5 Mbps.</li></ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>1080p HD video streaming</strong></li>\n<li>Enjoy your entertainment in HD quality picture, color and sharpness.</li>\n<li>HD compatible devices required. Content availability may vary. HD content viewing will be impacted by additional factors like internet speed, home network congestion and operating system of devices used for content access.</li>\n</ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>Wireless router included</strong></li>\n<li>Our state-of-the-art Wi-Fi 6 router and 5G receiver is included in your plan.</li></ul>\n\n<ul style=\"list-style: none;\">\n<li><strong>2-Year Price Guarantee</strong></li>\n<li>So you don’t need to worry about unexpected  price hikes.</li>\n<li>For new Verizon Home Internet (\"VHI\") households who have not subscribed to a VHI service within the last 90 days. Applies only to the then-current base monthly rate exclusive of any other setup and additional equipment charges, discounts or promotions, including the FCC’s Affordable Connectivity Program (ACP) and the Verizon Forward Program.</li></ul>",
+                "allowance": {
+                    "dataAllowance": "unlimited"
+                },
+                "accessCharge": {
+                    "frequencyCode": "M",
+                    "monthlyAccessCharge": "60.00",
+                    "finalMonthlyAccessCharge": "60.00",
+                    "eligibleAutoPayDiscount": "10.00"
+                },
+                "promos": [],
+                "planAttributes": {
+                    "sharePlan": false,
+                    "variableLineCostPlan": false,
+                    "variablePlanCostPlan": false,
+                    "connectedDevicePlan": false,
+                    "ultraWideBand5GPlan": false,
+                    "safetyModeEligible": false,
+                    "showcase": true,
+                    "restricted": false,
+                    "backupPlan": false,
+                    "promoGifterPlan": false,
+                    "promoGifteePlan": false,
+                    "eligibleForParentLine": false,
+                    "requiresParentLine": false,
+                    "disneyPlusEligible": true,
+                    "appleMusicEligible": false,
+                    "connectedCar": false,
+                    "anchorRequired": false,
+                    "anchorable": false,
+                    "planPerkValue": "0",
+                    "mixAndMatch": false,
+                    "welcomeUnlimited": false,
+                    "planCategoryCode": "74",
+                    "mixAndMatch2": false,
+                    "mixAndMatch3": false,
+                    "mixAndMatch4": false
+                },
+                "planProducts": [
+                    "70070",
+                    "70071",
+                    "70067",
+                    "70072",
+                    "70085"
+                ],
+                "planProductGroups": [
+                    "50050",
+                    "50051",
+                    "50046",
+                    "50052",
+                    "50062"
+                ],
+                "productName": "5G FCL LINE LEVEL CBAND",
+                "promoGiftee": {},
+                "planRestricted": false,
+                "popularPlanProducts": []
+            }
+        ]
     }
-    dispatch({ type: actionTypes.DUPLICATE_PERK_DISCLOSURE, response: perkDuplicateOverlay });
-  };
- 
-  if (isJointTransactionFlow() || isLoggedIn()) {
-    if (toggleOn) {
-      shareableperksSpoids.forEach((val) => {
-        if (val === perkInfo.spoId) {
-          shareableperkOpened = true;
-          handleOverlay();
-        }
-      });
-      Iif (hasNetflixSubscription && !shareableperkOpened && !isJointTransactionFlow()) {
-        handleOverlay();
-      }
-    }
-  }
-  return showDisclosurePerk;
-};
- 
-export const handleDisclosurePerks = (perkStaticContent, perkInfo, state, toggleOn, dispatch) => {
-  const disclosurePerksSpoIds = [perkStaticContent?.disneyPerkSpoId];
-  if (!isLoggedIn()) {
-    disclosurePerksSpoIds.push(perkStaticContent?.appleOneIndividualPerkSpoId);
-    disclosurePerksSpoIds.push(perkStaticContent?.appleOneFamilyPerkSpoId);
-  }
-  if (disclosurePerksSpoIds?.includes(perkInfo?.spoId) && toggleOn) {
-    const perkDisclosureOverlay = state?.progressivePlans?.perkDisclosureOverlay ? state?.progressivePlans?.perkDisclosureOverlay : {};
-    const disclosureDisplayed = new Set(perkDisclosureOverlay?.disclosureDisplayed); // Taking out any duplicate from array available.
-    Iif (!disclosureDisplayed.has(perkInfo?.spoId) && perkInfo?.spoId) {
-      disclosureDisplayed.add(perkInfo?.spoId);
-      perkDisclosureOverlay.show = true;
-      perkDisclosureOverlay.currentSpoId = perkInfo.spoId;
-      perkDisclosureOverlay.disclosureDisplayed = Array.from(disclosureDisplayed);
-    }
-    dispatch({ type: actionTypes.UPDATE_PERK_DISCLOSURE, response: perkDisclosureOverlay });
-  }
-};
- 
+}
