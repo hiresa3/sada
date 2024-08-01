@@ -1,10 +1,10 @@
-// GetAction.test.js
 import { GetAction } from './GetAction';
 import { useDispatch } from 'react-redux';
 import { actionTypes } from './actionTypes';
 import { eventDispatcher } from './eventDispatcher';
 import { PROGRESSIVE, planJourneyCodes } from './constants';
 
+// Mock the required modules
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
@@ -83,11 +83,7 @@ describe('GetAction', () => {
             children: 'Continue',
             disabled: false,
             onClick: () => {
-              if (!true) { // simulating planSelected false
-                eventDispatcher('notify', { name: 'Please select your plan to continue' });
-                eventDispatcher('openView', { name: 'message displayed' });
-                mockDispatch({ type: actionTypes.UPDATE_ERROR_NOTIFICATION, payload: true });
-              } else {
+              if (true) {
                 expect(mockDispatch).toHaveBeenCalledWith({
                   type: actionTypes.FEEDBACK_API,
                   feedBackTile: [
@@ -108,6 +104,10 @@ describe('GetAction', () => {
                   nbxSessionId: '12345',
                 });
                 mockDispatch({ type: actionTypes.ADD_PLAN_API, payload: 'progressivePlan', history: { push: jest.fn() }, planSelectionJourney: planJourneyCodes.PROGRESSIVE });
+              } else {
+                eventDispatcher('notify', { name: 'Please select your plan to continue' });
+                eventDispatcher('openView', { name: 'message displayed' });
+                mockDispatch({ type: actionTypes.UPDATE_ERROR_NOTIFICATION, payload: true });
               }
             },
           },
@@ -115,6 +115,162 @@ describe('GetAction', () => {
       },
     });
   });
-  
-  // Add more test cases as needed
+
+  it('should call feedback API when FeedbackApiFlag is true', () => {
+    const storeDetails = {
+      SessionValues: { planSelectionJourney: PROGRESSIVE },
+      progressivePlans: {
+        progressivePlanAPiResponse: {
+          data: {
+            lineLevelPlans: {
+              lines: [
+                {
+                  products: [
+                    {
+                      plans: [{ planId: 'plan1' }],
+                    },
+                  ],
+                  availablePerks: [{ spoId: 'perk1' }],
+                },
+              ],
+            },
+            selectedPlanInfo: { selectedPlan: [{ planId: 'plan1' }] },
+            getfwaplansLoaded: true,
+            contextInfo: { sessionId: '12345' },
+          },
+        },
+      },
+      plansReferenceData: {
+        output: { staticContent: { feedbackContextInfo: 'info' } },
+      },
+    };
+
+    const action = GetAction(
+      true,
+      true,
+      [{ spoId: 'perk1' }],
+      { push: jest.fn() },
+      storeDetails
+    );
+
+    // Trigger the onClick to test feedback API call
+    action.buttonGroup.data[0].onClick();
+
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: actionTypes.FEEDBACK_API,
+      feedBackTile: [
+        {
+          planId: 'plan1',
+          tacticLocation: 'AvailablePlans',
+        },
+        {
+          spoId: 'perk1',
+          tacticLocation: 'AvailablePerks',
+        },
+      ],
+      mtn: 'newLine1',
+      dispositionOptionId: 81,
+      lineActivityType: `${getIntendType()}`,
+      selectedLLP: '',
+      feedbackContextInfo: 'info',
+      nbxSessionId: '12345',
+    });
+  });
+
+  it('should handle error case when plan is not selected', () => {
+    const storeDetails = {
+      SessionValues: { planSelectionJourney: PROGRESSIVE },
+      progressivePlans: {
+        progressivePlanAPiResponse: {
+          data: {
+            lineLevelPlans: {
+              lines: [
+                {
+                  products: [
+                    {
+                      plans: [{ planId: 'plan1' }],
+                    },
+                  ],
+                  availablePerks: [{ spoId: 'perk1' }],
+                },
+              ],
+            },
+            selectedPlanInfo: {},
+            getfwaplansLoaded: true,
+            contextInfo: { sessionId: '12345' },
+          },
+        },
+      },
+      plansReferenceData: {
+        output: { staticContent: { feedbackContextInfo: 'info' } },
+      },
+    };
+
+    const action = GetAction(
+      false, // planSelected = false
+      true,
+      [{ spoId: 'perk1' }],
+      { push: jest.fn() },
+      storeDetails
+    );
+
+    action.buttonGroup.data[0].onClick();
+
+    expect(eventDispatcher).toHaveBeenCalledWith('notify', { name: 'Please select your plan to continue' });
+    expect(eventDispatcher).toHaveBeenCalledWith('openView', { name: 'message displayed' });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: actionTypes.UPDATE_ERROR_NOTIFICATION, payload: true });
+    expect(mockDispatch).not.toHaveBeenCalledWith({
+      type: actionTypes.FEEDBACK_API,
+    });
+  });
+
+  it('should not call feedback API if FeedbackApiFlag is false', () => {
+    const storeDetails = {
+      SessionValues: { planSelectionJourney: PROGRESSIVE },
+      progressivePlans: {
+        progressivePlanAPiResponse: {
+          data: {
+            lineLevelPlans: {
+              lines: [
+                {
+                  products: [
+                    {
+                      plans: [{ planId: 'plan1' }],
+                    },
+                  ],
+                  availablePerks: [{ spoId: 'perk1' }],
+                },
+              ],
+            },
+            selectedPlanInfo: { selectedPlan: [{ planId: 'plan1' }] },
+            getfwaplansLoaded: true,
+            contextInfo: { sessionId: '12345' },
+          },
+        },
+      },
+      plansReferenceData: {
+        output: { staticContent: { feedbackContextInfo: 'info', FeedbackApiFlag: false } },
+      },
+    };
+
+    const action = GetAction(
+      true,
+      true,
+      [{ spoId: 'perk1' }],
+      { push: jest.fn() },
+      storeDetails
+    );
+
+    action.buttonGroup.data[0].onClick();
+
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: actionTypes.ADD_PLAN_API,
+      payload: 'progressivePlan',
+      history: { push: jest.fn() },
+      planSelectionJourney: planJourneyCodes.PROGRESSIVE,
+    });
+    expect(mockDispatch).not.toHaveBeenCalledWith({
+      type: actionTypes.FEEDBACK_API,
+    });
+  });
 });
