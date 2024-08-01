@@ -1,120 +1,120 @@
-// New Test Cases
+// GetAction.test.js
+import { GetAction } from './GetAction';
+import { useDispatch } from 'react-redux';
+import { actionTypes } from './actionTypes';
+import { eventDispatcher } from './eventDispatcher';
+import { PROGRESSIVE, planJourneyCodes } from './constants';
 
-test('renders with default props and verifies heading', () => {
-  render(<StreamingService {...streamingDeviceProps} />);
-  const header = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
-  expect(header).toBeInTheDocument();
-});
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
 
-test('renders correctly with no accessory details', () => {
-  render(<StreamingService {...streamingDeviceProps} accessoryDetails={[]} />);
-  const noAccessoriesMessage = screen.getByText('No accessories available');
-  expect(noAccessoriesMessage).toBeInTheDocument();
-});
+jest.mock('./eventDispatcher', () => ({
+  eventDispatcher: jest.fn(),
+}));
 
-test('displays correct header and subheader based on props', () => {
-  render(<StreamingService {...streamingDeviceProps} />);
-  const header = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
-  const subheader = screen.getByText(streamingDeviceConstants.fiveGSubHeaderTextToCompare);
-  expect(header).toBeInTheDocument();
-  expect(subheader).toBeInTheDocument();
-});
+const mockDispatch = jest.fn();
 
-test('handles add to cart functionality', () => {
-  const postAddToCartMock = jest.fn();
-  render(
-    <StreamingService
-      {...streamingDeviceProps}
-      postAddToCart={postAddToCartMock}
-    />
-  );
-  const button = screen.getByRole('button', { name: 'Fire TV Cube Add to Cart' });
-  fireEvent.click(button);
-  expect(postAddToCartMock).toHaveBeenCalled();
-});
-
-test('handles remove from cart functionality', () => {
-  const postRemoveFromCartMock = jest.fn();
-  render(
-    <StreamingService
-      {...streamingDeviceProps}
-      postRemoveCart={postRemoveFromCartMock}
-    />
-  );
-  const button = screen.getByRole('button', { name: 'Fire TV Cube Remove' });
-  fireEvent.click(button);
-  expect(postRemoveFromCartMock).toHaveBeenCalled();
-});
-
-test('displays correct message when add to cart is successful', async () => {
-  const showAddonNotificationMock = jest.fn();
-  render(
-    <StreamingService
-      {...streamingDeviceProps}
-      showAddonNotification={showAddonNotificationMock}
-      notifyMessage="Added to cart"
-    />
-  );
-  await waitFor(() => {
-    expect(showAddonNotificationMock).toHaveBeenCalledWith('Added to cart');
+describe('GetAction', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useDispatch.mockReturnValue(mockDispatch);
   });
-});
 
-test('handles quantity changes for streaming services', () => {
-  render(<StreamingService {...streamingDevice197lineQuantityDefined} />);
-  const increaseButton = screen.getByRole('button', { name: 'Increase Stream TV by one' });
-  const decreaseButton = screen.getByRole('button', { name: 'Decrease Stream TV by one' });
-  fireEvent.click(increaseButton);
-  fireEvent.click(decreaseButton);
-  // Verify the result based on your implementation
-});
+  it('should create an action with correct button and helper text when perks are selected', () => {
+    const storeDetails = {
+      SessionValues: { planSelectionJourney: PROGRESSIVE },
+      progressivePlans: {
+        progressivePlanAPiResponse: {
+          data: {
+            lineLevelPlans: {
+              lines: [
+                {
+                  products: [
+                    {
+                      plans: [{ planId: 'plan1' }],
+                    },
+                  ],
+                  availablePerks: [{ spoId: 'perk1' }],
+                },
+              ],
+            },
+            selectedPlanInfo: { selectedPlan: [{ planId: 'plan1' }] },
+            getfwaplansLoaded: true,
+            contextInfo: { sessionId: '12345' },
+          },
+        },
+      },
+      plansReferenceData: {
+        output: { staticContent: { feedbackContextInfo: 'info' } },
+      },
+    };
 
-test('renders correctly based on device type and flow type', () => {
-  spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
-  render(<StreamingService {...streamingDeviceProps} />);
-  const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
-  expect(fiveGHeader).toBeInTheDocument();
-});
+    const action = GetAction(
+      true,
+      true,
+      [{ spoId: 'perk1' }],
+      { push: jest.fn() },
+      storeDetails
+    );
 
-test('displays correct information for tablet view', () => {
-  spyFuncOn(streamingDeviceConstants.tabletTypeFuncName, streamingDeviceConstants.viewportFuncValueTablet);
-  render(<StreamingService {...streamingDeviceProps} />);
-  const tabletHeading = screen.getByText(streamingDeviceConstants.tabletHeadingTextToCompare);
-  expect(tabletHeading).toBeInTheDocument();
-});
-
-test('verifies behavior with mobile view', () => {
-  spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
-  render(<StreamingService {...streamingDeviceProps} />);
-  const mobileHeader = screen.getByText(streamingDeviceConstants.mobileHeaderTextToCompare);
-  expect(mobileHeader).toBeInTheDocument();
-});
-
-test('verifies rendering with multiple accessories', () => {
-  render(<StreamingService {...PropsAccessoryDetailsMoreThan3} />);
-  const accessories = screen.getAllByRole('button', { name: /Add to Cart/ });
-  expect(accessories.length).toBeGreaterThan(3);
-});
-
-test('handles error cases for add to cart functionality', async () => {
-  const postAddToCartMock = jest.fn(() => {
-    throw new Error('Failed to add to cart');
+    expect(action).toEqual({
+      helperText: {
+        children: (
+          <>
+            By continuing, you agree to perk{' '}
+            <TextLink
+              data-testId="terms-and-conditions"
+              data-track='{"type": "link","name": "perks tnc"}'
+              onClick={() => {
+                mockDispatch({ type: actionTypes.SET_TERMS_AND_CONDITIONS_OVERLAY, response: { selectedPerksTerms: ['perk1'], show: true } });
+              }}
+            >
+              Terms & Conditions
+            </TextLink>
+            .
+          </>
+        ),
+      },
+      buttonGroup: {
+        data: [
+          {
+            use: 'primary',
+            children: 'Continue',
+            disabled: false,
+            onClick: () => {
+              if (!true) { // simulating planSelected false
+                eventDispatcher('notify', { name: 'Please select your plan to continue' });
+                eventDispatcher('openView', { name: 'message displayed' });
+                mockDispatch({ type: actionTypes.UPDATE_ERROR_NOTIFICATION, payload: true });
+              } else {
+                expect(mockDispatch).toHaveBeenCalledWith({
+                  type: actionTypes.FEEDBACK_API,
+                  feedBackTile: [
+                    {
+                      planId: 'plan1',
+                      tacticLocation: 'AvailablePlans',
+                    },
+                    {
+                      spoId: 'perk1',
+                      tacticLocation: 'AvailablePerks',
+                    },
+                  ],
+                  mtn: 'newLine1',
+                  dispositionOptionId: 81,
+                  lineActivityType: `${getIntendType()}`,
+                  selectedLLP: '',
+                  feedbackContextInfo: 'info',
+                  nbxSessionId: '12345',
+                });
+                mockDispatch({ type: actionTypes.ADD_PLAN_API, payload: 'progressivePlan', history: { push: jest.fn() }, planSelectionJourney: planJourneyCodes.PROGRESSIVE });
+              }
+            },
+          },
+        ],
+      },
+    });
   });
-  render(
-    <StreamingService
-      {...streamingDeviceProps}
-      postAddToCart={postAddToCartMock}
-    />
-  );
-  const button = screen.getByRole('button', { name: 'Fire TV Cube Add to Cart' });
-  fireEvent.click(button);
-  await waitFor(() => {
-    expect(postAddToCartMock).toThrow('Failed to add to cart');
-  });
-});
-
-test('renders with different prop combinations', () => {
-  render(<StreamingService {...streamingDevicePropsAccessoryDetailsNewProps} />);
-  const element = screen.getByText(/Streaming Service/);
-  expect(element).toBeInTheDocument();
+  
+  // Add more test cases as needed
 });
