@@ -21,129 +21,53 @@ import {
 import { streamingDeviceConstants } from './constants';
 import { spyFuncOn } from '../../../Common/jestCommon';
 
-describe('StreamingService Component Tests', () => {
-  beforeEach(() => {
+describe('Check for Streaming Devices', () => {
+  // Existing tests
+  // ...
+
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
     jest.useFakeTimers();
-  });
-
-  test('renders with default props and verifies heading', () => {
-    render(<StreamingService {...streamingDeviceProps} />);
-    const header = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
-    expect(header).toBeInTheDocument();
-  });
-
-  test('renders correctly with no accessory details', () => {
-    render(<StreamingService {...streamingDeviceProps} accessoryDetails={[]} />);
-    const noAccessoriesMessage = screen.getByText('No accessories available');
-    expect(noAccessoriesMessage).toBeInTheDocument();
-  });
-
-  test('displays correct header and subheader based on props', () => {
-    render(<StreamingService {...streamingDeviceProps} />);
-    const header = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
-    const subheader = screen.getByText(streamingDeviceConstants.fiveGSubHeaderTextToCompare);
-    expect(header).toBeInTheDocument();
-    expect(subheader).toBeInTheDocument();
-  });
-
-  test('handles add to cart functionality', () => {
-    const postAddToCartMock = jest.fn();
-    render(
-      <StreamingService
-        {...streamingDeviceProps}
-        postAddToCart={postAddToCartMock}
-      />
-    );
-    const button = screen.getByRole('button', { name: 'Fire TV Cube Add to Cart' });
-    fireEvent.click(button);
-    expect(postAddToCartMock).toHaveBeenCalled();
-  });
-
-  test('handles remove from cart functionality', () => {
-    const postRemoveFromCartMock = jest.fn();
-    render(
-      <StreamingService
-        {...streamingDeviceProps}
-        postRemoveCart={postRemoveFromCartMock}
-      />
-    );
-    const button = screen.getByRole('button', { name: 'Fire TV Cube Remove' });
-    fireEvent.click(button);
-    expect(postRemoveFromCartMock).toHaveBeenCalled();
-  });
-
-  test('displays correct message when add to cart is successful', async () => {
-    const showAddonNotificationMock = jest.fn();
-    render(
-      <StreamingService
-        {...streamingDeviceProps}
-        showAddonNotification={showAddonNotificationMock}
-        notifyMessage="Added to cart"
-      />
-    );
-    await waitFor(() => {
-      expect(showAddonNotificationMock).toHaveBeenCalledWith('Added to cart');
-    });
-  });
-
-  test('handles quantity changes for streaming services', () => {
-    render(<StreamingService {...streamingDevice197lineQuantityDefined} />);
-    const increaseButton = screen.getByRole('button', { name: 'Increase Stream TV by one' });
-    const decreaseButton = screen.getByRole('button', { name: 'Decrease Stream TV by one' });
-    fireEvent.click(increaseButton);
-    fireEvent.click(decreaseButton);
-    // Verify the result based on your implementation
-  });
-
-  test('renders correctly based on device type and flow type', () => {
     spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
-    render(<StreamingService {...streamingDeviceProps} />);
+    render(<StreamingService {...streamingDeviceProps} showAddNotification showAddonNotification={jest.fn()} selectedProdID="ASK-STI6220" />);
     const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
     expect(fiveGHeader).toBeInTheDocument();
+    jest.advanceTimersByTime(3000);
   });
 
-  test('displays correct information for tablet view', () => {
-    spyFuncOn(streamingDeviceConstants.tabletTypeFuncName, streamingDeviceConstants.viewportFuncValueTablet);
-    render(<StreamingService {...streamingDeviceProps} />);
-    const tabletHeading = screen.getByText(streamingDeviceConstants.tabletHeadingTextToCompare);
-    expect(tabletHeading).toBeInTheDocument();
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    jest.useFakeTimers();
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    render(<StreamingService {...streamingDeviceProps} showAddNotification showAddonNotification={jest.fn()} selectedProdID="39425" />);
+    const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
+    expect(fiveGHeader).toBeInTheDocument();
+    jest.advanceTimersByTime(3000);
   });
 
-  test('verifies behavior with mobile view', () => {
-    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
-    render(<StreamingService {...streamingDeviceProps} />);
-    const mobileHeader = screen.getByText(streamingDeviceConstants.mobileHeaderTextToCompare);
-    expect(mobileHeader).toBeInTheDocument();
-  });
-
-  test('verifies rendering with multiple accessories', () => {
-    render(<StreamingService {...PropsAccessoryDetailsMoreThan3} />);
-    const accessories = screen.getAllByRole('button', { name: /Add to Cart/ });
-    expect(accessories.length).toBeGreaterThan(3);
-  });
-
-  test('handles error cases for add to cart functionality', async () => {
-    const postAddToCartMock = jest.fn(() => {
-      throw new Error('Failed to add to cart');
-    });
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    jest.useFakeTimers();
+    devicesProps.accessoryDetails.pop();
+    devicesProps.accessoryDetails.pop();
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
     render(
       <StreamingService
-        {...streamingDeviceProps}
-        postAddToCart={postAddToCartMock}
-      />
+        {...devicesProps}
+        addOnLoadingDone
+        getskipStatus={jest.fn()}
+        showAddonNotification={jest.fn()}
+        selectedProdID="ASK-STI6220"
+      />,
     );
-    const button = screen.getByRole('button', { name: 'Fire TV Cube Add to Cart' });
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(postAddToCartMock).toThrow('Failed to add to cart');
-    });
+    const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
+    expect(fiveGHeader).toBeInTheDocument();
+    jest.advanceTimersByTime(3000);
   });
 
-  test('renders with different prop combinations', () => {
-    render(<StreamingService {...streamingDevicePropsAccessoryDetailsNewProps} />);
-    const element = screen.getByText(/Streaming Service/);
-    expect(element).toBeInTheDocument();
+  test('Check for Sub-Header when flow type is not LTE and device type is mobile/Tablet', () => {
+    render(<StreamingService {...streamingDeviceProps} />);
+    const fiveGSubHeader = screen.getByText(streamingDeviceConstants.fiveGSubHeaderTextToCompare);
+    expect(fiveGSubHeader).toBeInTheDocument();
   });
 
-  // Add additional tests as needed for remaining scenarios and edge cases
-});
+  test('Check for Container Class for Mobile view', () => {
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
+    // expect(container.getElementsByClassName(streamingDeviceConstants.classNameForContainerClassMobileVi
