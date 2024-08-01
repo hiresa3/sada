@@ -1,4 +1,246 @@
-const isSubscribedAsBundle = (shareablePerks, plan, nextflixplaySubscriptions) => {
-    const netflixPerks = (plan?.perksInfoList || []).map((perksInfoList) => perksInfoList?.spoId).filter((value) => value === '2839');
-    const hasNetflixSubscription = nextflixplaySubscriptions?.find((i) => i?.merchantAccountKey === 'NETFLIX');
-  };
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+
+import StreamingService from '../../../../../components/Web/Addons/redesign/StreamingDevice';
+import {
+  streamingDeviceProps,
+  devicesProps,
+  PropsAccessoryDetailsMoreThan3,
+  streamingDevicePropsAccessoryDetails1,
+  streamingDevice143line,
+  streamingDevice197line,
+  streamingDevice197lineQuantityDefined,
+  streamingDevicePropsAccessoryDetails1sorIDGivenQuantityUndefined,
+  accessoryDetails1andNoProductRefData,
+  streamingDevicePropsAccessoryDetailsNewProps,
+  streamingDevicePropsAccessoryDetailsNewProps1,
+  PropsAccessoryDetailsMoreThan3NewProps,
+  streamingDevice143lineDueMonthly,
+  addonstestData,
+} from './streamingDevicesTestData';
+import { streamingDeviceConstants } from './constants';
+import { spyFuncOn } from '../../../Common/jestCommon';
+// import { setSession} from '../../../Common/sessionCommon';
+
+describe('Check for Streaming Devices', () => {
+  // test.only('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+  //   spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+  //   let button=null;
+  //   setSession("isCBandFlow" , "Y")
+  //   streamingDeviceProps.accessoryDetails[2].type='homePhoneService';
+  //   render(<StreamingService {...streamingDeviceProps} postAddToCart={()=>{}} getskipStatus={()=>{}} postAccessory={{AddonAccessory:()=>{}}} />);
+  //   button = screen.getAllByRole("button",{name:'Fire TV Cube Add to Cart',hidden: true})[0];
+  //   fireEvent.click(button);
+  // });
+  // test.only('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+  //   spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+  //   //streamingDeviceProps.accessoryDetails[0].type='vzProtectHome';
+  //   render(<StreamingService {...streamingDeviceProps} postAddToCart={()=>{}} getskipStatus={()=>{}} postAccessory={{AddonAccessory:()=>{}}} notifyMessage={'success'} />);
+  //   screen.debug(null,Infinity);
+  //   let button=null;
+  //   // button = screen.getByRole("button",{name:'5G Home Internet Remove',hidden: true});
+  //   // fireEvent.click(button);
+  // });
+  // test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+  //   spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+  //   render(<StreamingService {...streamingDeviceProps} postAddToCart={() => {}} getskipStatus={() => {}} notifyMessage="success" addonObj={{}} />);
+  //   let button = null;
+  //   // button = screen.getByRole('button', { name: 'Fire TV Cube Add to Cart', hidden: true });
+  //   // fireEvent.click(button);
+  //   // button = screen.getByRole('button', { name: 'Fire TV Stick 4K Add to Cart', hidden: true });
+  //   // fireEvent.click(button);
+  //   button = screen.getByRole('button', { name: '5G Home Internet Remove', hidden: true });
+  //   fireEvent.click(button);
+  //   button = screen.getByRole('button', { name: 'Increase Stream TV by one from 2', hidden: true });
+  //   fireEvent.click(button);
+  //   button = screen.getByRole('button', { name: 'Decrease Stream TV by one from 2', hidden: true });
+  //   fireEvent.click(button);
+  // });
+
+  // test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+  //   spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+  //   let button = null;
+  //   streamingDeviceProps.accessoryDetails[2].type = 'streamingService';
+  //   render(
+  //     <StreamingService
+  //       {...streamingDeviceProps}
+  //       postAddToCart={() => {}}
+  //       getskipStatus={() => {}}
+  //       postAccessory={{ AddonAccessory: () => {} }}
+  //       notifyMessage="success"
+  //     />,
+  //   );
+  //   [button] = screen.getAllByRole('button', { name: 'Fire TV Cube Add to Cart', hidden: true });
+  //   fireEvent.click(button);
+  // });
+  // test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+  //   spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+  //   let button = null;
+  //   streamingDeviceProps.accessoryDetails[2].type = 'vzProtectHome';
+  //   render(
+  //     <StreamingService
+  //       {...streamingDeviceProps}
+  //       postAddToCart={() => {}}
+  //       getskipStatus={() => {}}
+  //       postAccessory={{ AddonAccessory: () => {} }}
+  //       notifyMessage="success"
+  //       addonObj={{}}
+  //     />,
+  //   );
+  //   [button] = screen.getAllByRole('button', { name: 'Fire TV Cube Add to Cart', hidden: true });
+  //   fireEvent.click(button);
+  // });
+
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    jest.useFakeTimers();
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    render(<StreamingService {...streamingDeviceProps} showAddNotification showAddonNotification={jest.fn()} selectedProdID="ASK-STI6220" />);
+    const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
+    expect(fiveGHeader).toBeInTheDocument();
+    jest.advanceTimersByTime(3000);
+  });
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    jest.useFakeTimers();
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    render(<StreamingService {...streamingDeviceProps} showAddNotification showAddonNotification={jest.fn()} selectedProdID="39425" />);
+    const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
+    expect(fiveGHeader).toBeInTheDocument();
+    jest.advanceTimersByTime(3000);
+  });
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    jest.useFakeTimers();
+    devicesProps.accessoryDetails.pop();
+    devicesProps.accessoryDetails.pop();
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    render(
+      <StreamingService
+        {...devicesProps}
+        addOnLoadingDone
+        getskipStatus={jest.fn()}
+        showAddonNotification={jest.fn()}
+        selectedProdID="ASK-STI6220"
+      />,
+    );
+    const fiveGHeader = screen.getByText(streamingDeviceConstants.fiveGHeaderTextToCompare);
+    expect(fiveGHeader).toBeInTheDocument();
+    jest.advanceTimersByTime(3000);
+  });
+
+  test('Check for Sub-Header when flow type is not LTE and device type is mobile/Tablet', () => {
+    render(<StreamingService {...streamingDeviceProps} />);
+    const fiveGSubHeader = screen.getByText(streamingDeviceConstants.fiveGSubHeaderTextToCompare);
+    expect(fiveGSubHeader).toBeInTheDocument();
+  });
+  test('Check for Container Class for Mobile view', () => {
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
+    // expect(container.getElementsByClassName(streamingDeviceConstants.classNameForContainerClassMobileView).length).toBe(1);
+  });
+  test('Check for pagination in mobile view', () => {
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
+    // expect(container.getElementsByClassName(streamingDeviceConstants.classNameForSwiperPagination).length).toBe(1);
+  });
+  test('Check for cartid and prodId is same and prodType equals streaming services with quantity 1', () => {
+    jest.useFakeTimers();
+    render(<StreamingService {...streamingDevicePropsAccessoryDetails1} />);
+    jest.advanceTimersByTime(3000);
+  });
+  test('Check for cartid and prodId is same and prodType equals streaming services with quantity 1', () => {
+    jest.useFakeTimers();
+    render(<StreamingService {...streamingDevicePropsAccessoryDetailsNewProps} />);
+    jest.advanceTimersByTime(3000);
+  });
+  test('Check for cartid and prodId is same and prodType equals streaming services with quantity 1', () => {
+    jest.useFakeTimers();
+    render(<StreamingService {...streamingDevicePropsAccessoryDetailsNewProps1} />);
+    jest.advanceTimersByTime(3000);
+  });
+  test('Check for Tablet view and streamingdevice Heading', () => {
+    spyFuncOn(streamingDeviceConstants.tabletTypeFuncName, streamingDeviceConstants.viewportFuncValueTablet);
+    // expect(container.getElementsByClassName(streamingDeviceConstants.classNameForTabletHeading).length).toBe(1);
+  });
+  // test('Check for prodType is not streaming Service devices are more than 3', () => {
+  //   spyFuncOn(streamingDeviceConstants.tabletTypeFuncName, streamingDeviceConstants.viewportFuncValueTablet);
+  //   render(<StreamingService {...streamingDeviceProps} />);
+  //   const StreamDevice = screen.getByText(streamingDeviceConstants.StreamingDeviceTextToCompare);
+  //   expect(StreamDevice).toBeInTheDocument();
+  // });
+  test('when cartid and prodId is same of DueTodayList and prodType is not streaming Service', () => {
+    jest.useFakeTimers();
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
+    render(<StreamingService {...PropsAccessoryDetailsMoreThan3} />);
+    jest.advanceTimersByTime(3000);
+  });
+  test('when cartid and prodId is same of DueTodayList and prodType is not streaming Service', () => {
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.viewportFuncValueMobile);
+    render(<StreamingService {...PropsAccessoryDetailsMoreThan3NewProps} />);
+  });
+  test('when cartid and prodId is same of DueMonthlyList and prodType is streaming Service accessorydetails 1 line 305', () => {
+    render(<StreamingService {...streamingDevice143line} />);
+  });
+  test('when cartid and prodId is same of DueMonthlyList and prodType is streaming Service accessorydetails 1 line 305', () => {
+    render(<StreamingService {...streamingDevice143lineDueMonthly} />);
+  });
+  test('when cartid and prodId is same of DueMonthlyList and prodType is streaming Service', () => {
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.mobileFuncValueFalse);
+    render(<StreamingService {...streamingDevice143line} />);
+  });
+  test('when cartid and prodId is same of DueTodayList and prodType is streamingDevice', () => {
+    spyFuncOn('viewport', 'mfapp');
+    spyFuncOn('isDesktop', true);
+    render(<StreamingService {...streamingDevice197line} disclaimerText="Disclaimer" />);
+  });
+  test('when cartid and prodId is same of DueTodayList and prodType is streamingDevice', () => {
+    render(<StreamingService {...streamingDevice197lineQuantityDefined} />);
+  });
+  test('Check for swiper in mobile view', () => {
+    spyFuncOn(streamingDeviceConstants.mobileTypeFuncName, streamingDeviceConstants.mobileFuncValueFalse);
+    // expect(container.getElementsByClassName(streamingDeviceConstants.swiperClassToCompare).length).toBe(4);
+  });
+  test('when Accessory detail are more than 3 and item compared by productID', () => {
+    spyFuncOn(streamingDeviceConstants.tabletTypeFuncName, streamingDeviceConstants.tabletFuncValueFalse);
+    // expect(container.getElementsByClassName(streamingDeviceConstants.accessoryDetailsClassToCompare).length).toBe(6);
+  });
+  test('when Accessory detail are equal to 1 and item compared by sorID ', () => {
+    render(<StreamingService {...streamingDevicePropsAccessoryDetails1sorIDGivenQuantityUndefined} />);
+  });
+  test('when Accessory detail are equal to 1 and item compared by sorID ', () => {
+    render(<StreamingService {...accessoryDetails1andNoProductRefData} />);
+  });
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    spyFuncOn('checkIsMidnight', true);
+    streamingDeviceProps.accessoryDetails[2].type = 'streamingService';
+    render(<StreamingService {...streamingDeviceProps} />);
+  });
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    spyFuncOn('checkIsMidnight', true);
+    spyFuncOn('isMobile', true);
+
+    streamingDeviceProps.accessoryDetails[2].type = 'streamingService';
+    render(<StreamingService {...streamingDeviceProps} />);
+  });
+
+  test('Check for block heading when accessoryDetails is empty', () => {
+    streamingDeviceProps.accessoryDetails = [];
+    render(<StreamingService {...streamingDeviceProps} />);
+  });
+  test('Check for block heading when flow type is not LTE and device type is mobile/Tablet', () => {
+    spyFuncOn(streamingDeviceConstants.getFlowTypeFuncName, streamingDeviceConstants.flowtype5G);
+    spyFuncOn('checkIsMidnight', true);
+    jest.useFakeTimers();
+    const element = window.document.createElement('div');
+    element.setAttribute('id', '_AddtoCart');
+    window.document.body.appendChild(element);
+    render(<StreamingService {...addonstestData} postAddToCart={() => {}} getskipStatus={() => {}} notifyMessage="success" addonObj={{}} />);
+    let button = null;
+    button = screen.getAllByRole('button', { name: 'Remove', hidden: true });
+    fireEvent.click(button[0]);
+    button = screen.getByRole('button', { name: 'Decrease', hidden: true });
+    fireEvent.click(button);
+    jest.advanceTimersByTime(3000);
+    jest.advanceTimersByTime(4000);
+    jest.spyOn(global, 'setTimeout');
+  });
+});
+
